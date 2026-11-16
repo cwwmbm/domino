@@ -1,0 +1,6 @@
+# Your project data. Do not put it in the repository.
+data/
+
+__pycache__/
+*.pyc
+.DS_Store

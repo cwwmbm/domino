@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domino</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='8' y='2' width='16' height='28' rx='4' fill='%231e1c18'/%3E%3Cpath d='M11 16h10' stroke='%23fffdf8' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='9' r='2.2' fill='%23fffdf8'/%3E%3Ccircle cx='13' cy='21' r='1.8' fill='%23fffdf8'/%3E%3Ccircle cx='19' cy='25' r='1.8' fill='%23fffdf8'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header id="top">
+	<a class="logo" data-act="view" data-view="now" title="Domino">
+		<svg viewBox="0 0 32 32" width="24" height="24"><rect x="8" y="2" width="16" height="28" rx="4" fill="currentColor"/><path d="M11 16h10" class="logo-cut" stroke-width="1.5"/><circle cx="16" cy="9" r="2.2" class="logo-pip"/><circle cx="13" cy="21" r="1.8" class="logo-pip"/><circle cx="19" cy="25" r="1.8" class="logo-pip"/></svg>
+		<span>Domino</span>
+	</a>
+	<nav id="tabs">
+		<button data-act="view" data-view="now">Now</button>
+		<button data-act="view" data-view="board">Board</button>
+		<button data-act="view" data-view="list">List</button>
+		<button data-act="view" data-view="timeline">Timeline</button>
+		<button data-act="view" data-view="map">Map</button>
+	</nav>
+	<span class="sp"></span>
+	<div class="flt-wrap">
+		<svg viewBox="0 0 16 16" class="ic"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+		<input id="flt" placeholder="Filter: text, @person, #domain, is:ready" autocomplete="off" spellcheck="false">
+		<kbd>/</kbd>
+	</div>
+	<button class="btn" id="flt-btn" data-act="filters">Filters</button>
+	<button class="icon-btn" data-act="undo" title="Undo the last change (Cmd+Z)">
+		<svg viewBox="0 0 16 16" class="ic"><path d="M6 3.5L2.5 7 6 10.5M3 7h6.5a3.5 3.5 0 0 1 0 7H7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+	</button>
+	<button class="icon-btn" data-act="help" title="Help (?)">?</button>
+	<span id="save" class="save ok">Saved</span>
+</header>
+<section id="capture">
+	<div class="cap-box">
+		<span class="cap-plus">+</span>
+		<input id="cap" placeholder="Add a task, then press Enter" autocomplete="off" spellcheck="false">
+		<kbd>N</kbd>
+	</div>
+	<div id="cap-prev"></div>
+</section>
+<div id="fline"></div>
+<main id="view"></main>
+<aside id="drawer"></aside>
+<div id="pop" class="pop" hidden></div>
+<div id="sug" class="sug" hidden></div>
+<div id="toasts"></div>
+<div id="lightbox" hidden><img alt=""></div>
+<input type="file" id="file-in" multiple hidden>
+<script src="app.js"></script>
+</body>
+</html>
