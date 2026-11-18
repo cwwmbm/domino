@@ -43,7 +43,7 @@ Example: `Build the pricing page @dev #web !high due:fri after:6`
 
 | View | Use |
 | --- | --- |
-| Now | Counts for each status, the ranked "Do next" list, work in progress, blocked work |
+| Dashboard | Counts for each status, the ranked "Do next" list, tasks due this week, work in progress, blocked work |
 | Board | Drag a card to a column to change its status |
 | List | Tasks and subtasks as a tree. Point at a row and click `+` to add a subtask below it |
 | Timeline | Drag a bar to move it. Drag an end to change one date. A red dashed arrow shows dates that do not agree with a dependency |

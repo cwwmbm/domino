@@ -820,7 +820,7 @@ function emptyFilter() {
 	return '<div class="empty">No task agrees with this filter. <button class="btn" data-act="clear-filter">Clear the filter</button></div>'
 }
 
-// ---------------------------------------------------------------- view: Now
+// ---------------------------------------------------------------- view: Dashboard
 
 function viewNow(list) {
 	if (!db.tasks.length) return hero()
@@ -835,6 +835,8 @@ function viewNow(list) {
 	const blocked = list.filter(IX.blocked)
 	const overdue = list.filter(IX.overdue)
 	const flight = list.filter(t => t.status === 'doing' || t.status === 'review').sort((a, b) => (a.due || '9').localeCompare(b.due || '9') || a.id - b.id)
+	const weekEnd = addDays(today(), 7)
+	const dueWeek = list.filter(t => t.due && t.due <= weekEnd && IX.open(t)).sort((a, b) => a.due.localeCompare(b.due) || score(b) - score(a) || a.id - b.id)
 	const doneWeek = list.filter(t => t.status === 'done' && t.doneAt && t.doneAt > Date.now() - 7 * DAY)
 
 	function tile(n, label, sub, tok, cls) {
@@ -863,6 +865,13 @@ function viewNow(list) {
 			<button class="btn sm" data-act="set-status" data-status="done" data-id="${t.id}">Done</button>
 		</div>`).join('')
 
+	const dueSoon = dueWeek.slice(0, 7).map(t => `
+		<div class="nrow" data-act="open" data-id="${t.id}">
+			${dot(t)}
+			<div class="nmain"><div class="ntitle"><span class="id">#${t.id}</span> ${esc(t.title)}</div><div class="nmeta">${dueChip(t)}<span class="chip st s-${t.status}">${ST[t.status].label}</span>${metaChips(t).replace(dueChip(t), '')}</div></div>
+			${avatar(t.assignee)}
+		</div>`).join('')
+
 	const waiting = blocked.sort((a, b) => IX.unlocks(b) - IX.unlocks(a) || a.id - b.id).slice(0, 7).map(t => `
 		<div class="nrow" data-act="open" data-id="${t.id}">
 			<span class="lockbox">${I.lock}</span>
@@ -880,9 +889,10 @@ function viewNow(list) {
 		<div class="now">
 			<div class="flow">${flow}</div>
 			<div class="tiles">${tiles}</div>
-			<div class="cols3">
+			<div class="cols2">
 				<section class="panel"><h3>${I.domino} Do next <small>The tasks at the top unlock the most work</small></h3>${next || '<p class="none">No task is ready. Complete a task that is in progress, or add a new one.</p>'}${more(ready.length, 'is:ready')}</section>
-				<section class="panel"><h3>In progress</h3>${inFlight || '<p class="none">No task is in progress. Start one from the list on the left.</p>'}</section>
+				<section class="panel"><h3>Due this week <small>In the next 7 days. Overdue tasks are at the top.</small></h3>${dueSoon || '<p class="none">No open task is due in the next 7 days.</p>'}${more(dueWeek.length, 'due:week')}</section>
+				<section class="panel"><h3>In progress</h3>${inFlight || '<p class="none">No task is in progress. Start one from the "Do next" list.</p>'}</section>
 				<section class="panel"><h3>${I.lock} Waiting</h3>${waiting || '<p class="none">No task is blocked.</p>'}${more(blocked.length, 'is:blocked')}</section>
 			</div>
 			<div class="cols2">
